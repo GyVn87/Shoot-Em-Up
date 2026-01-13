@@ -9,12 +9,18 @@ public:
 
 private:
     void processEvents();
-    void update();
+    void update(sf::Time);
     void render();
+    void handlePlayerInput(sf::Keyboard::Scancode, bool);
 
 private:
     sf::RenderWindow mWindow;
     sf::CircleShape mPlayer;
+    float mPlayerSpeed = 60.f;
+    bool mIsMovingUp;
+    bool mIsMovingDown;
+    bool mIsMovingLeft;
+    bool mIsMovingRight;
 };
 
 #endif
