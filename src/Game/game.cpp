@@ -8,10 +8,15 @@ Game::Game() : mWindow(sf::VideoMode({640, 480}), "Shoot 'Em Up"), mPlayer() {
 
 void Game::run() {
     sf::Clock clock;
+    sf::Time timeSinceLastUpdate = sf::Time::Zero;
     while (mWindow.isOpen()) {
         sf::Time deltaTime = clock.restart();
+        timeSinceLastUpdate += deltaTime;
         processEvents();
-        update(deltaTime);
+        while (timeSinceLastUpdate >= mTimePerFrame) {
+            update(mTimePerFrame);
+            timeSinceLastUpdate -= mTimePerFrame;
+        }
         render();
     }
 }
@@ -42,7 +47,6 @@ void Game::update(sf::Time deltaTime) {
         movement.y *= 0.7071f;
     }
     mPlayer.move(movement * deltaTime.asSeconds());
-    
 }
 
 void Game::render() {

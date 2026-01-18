@@ -17,10 +17,11 @@ private:
     sf::RenderWindow mWindow;
     sf::CircleShape mPlayer;
     float mPlayerSpeed = 60.f;
-    bool mIsMovingUp;
-    bool mIsMovingDown;
-    bool mIsMovingLeft;
-    bool mIsMovingRight;
+    sf::Time mTimePerFrame = sf::seconds(1.f / 60.f);
+    bool mIsMovingUp = false;
+    bool mIsMovingDown = false;
+    bool mIsMovingLeft = false;
+    bool mIsMovingRight = false;
 };
 
 #endif
