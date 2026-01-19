@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 3.28)
+cmake_minimum_required(VERSION 4.2.1)
 
 project(ShootEmUp)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CACHE{BUILD_SHARED_LIBS} TYPE BOOL HELP "Build using shared libraries" FORCE VALUE OFF)
 
 include(FetchContent)
 FetchContent_Declare(

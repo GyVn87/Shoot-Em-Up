@@ -1,4 +1,4 @@
-name: CI
+name: Continuous Integration
 
 on: [push, pull_request]
 
@@ -8,31 +8,39 @@ defaults:
 
 jobs:
   build:
-    name: ${{ matrix.platform.name }} ${{ matrix.config.name }}
-    runs-on: ${{ matrix.platform.os }}
+    name: ${{matrix.name}}
+    runs-on: ${{matrix.os}}
 
     strategy:
       fail-fast: false
       matrix:
-        platform:
-        - { name: Windows VS2022, os: windows-2022  }
-        - { name: Linux GCC,      os: ubuntu-latest }
-        - { name: Linux Clang,    os: ubuntu-latest, flags: -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ }
-        - { name: macOS,          os: macos-latest  }
-        config:
-        - { name: Shared, flags: -DBUILD_SHARED_LIBS=TRUE }
-        - { name: Static, flags: -DBUILD_SHARED_LIBS=FALSE }
+        include:
+          - os: windows-latest
+            flagCompiler: -G"Visual Studio 17 2022"
+            name: Windows VS2022
+          - os: windows-latest
+            flagCompiler: -G"MinGW Makefiles"
+            name: Windows MinGW
+          - os: ubuntu-latest
+            name: Linux
 
     steps:
-    - name: Install Linux Dependencies
-      if: runner.os == 'Linux'
-      run: sudo apt-get update && sudo apt-get install libxrandr-dev libxcursor-dev libxi-dev libudev-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libfreetype-dev
+      - name: Install Linux Dependencies
+        if: ${{matrix.os == 'ubuntu-latest'}}
+        run: |
+          sudo apt-get update
+          sudo apt-get install libxrandr-dev libxcursor-dev libxi-dev libudev-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libfreetype-dev
 
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Install CMake 4.2.1
+        uses: lukka/get-cmake@latest
+        with:
+          cmakeVersion: 4.2.1
+      
+      - name: Checkout
+        uses: actions/checkout@v6
 
-    - name: Configure
-      run: cmake -B build ${{matrix.platform.flags}} ${{matrix.config.flags}}
+      - name: Configure
+        run: cmake -B build ${{matrix.flagCompiler}}
 
-    - name: Build
-      run: cmake --build build --config Release
+      - name: Build
+        run: cmake --build build --config Release

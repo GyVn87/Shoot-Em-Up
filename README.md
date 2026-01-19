@@ -10,5 +10,5 @@
 (quá trình này có thể mất hơn 2 phút)
 ```powershell
 cmake -B build
-cmake --build build
+cmake --build build --config Release
 ```
