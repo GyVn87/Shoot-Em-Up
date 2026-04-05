@@ -1,10 +1,6 @@
 #include "game.hpp"
 
-Game::Game() : mWindow(sf::VideoMode({640, 480}), "Shoot 'Em Up"), mPlayer() {
-    mPlayer.setRadius(40.f);
-    mPlayer.setPosition({100.f, 100.f});
-    mPlayer.setFillColor(sf::Color::Cyan);
-}
+Game::Game() : mWindow(sf::VideoMode({640, 480}), "Shoot 'Em Up"), mWorld(mWindow) {} // update later
 
 void Game::run() {
     sf::Clock clock;
@@ -33,35 +29,15 @@ void Game::processEvents() {
 }
 
 void Game::update(sf::Time deltaTime) {
-    sf::Vector2f movement({0.f, 0.f});
-    if (mIsMovingUp)
-        movement.y -= mPlayerSpeed;
-    if (mIsMovingLeft)
-        movement.x -= mPlayerSpeed;
-    if (mIsMovingDown)
-        movement.y += mPlayerSpeed;
-    if (mIsMovingRight)
-        movement.x += mPlayerSpeed;
-    if (movement.x != 0.f && movement.y != 0) {
-        movement.x *= 0.7071f;
-        movement.y *= 0.7071f;
-    }
-    mPlayer.move(movement * deltaTime.asSeconds());
+    mWorld.update(deltaTime);
 }
 
 void Game::render() {
-     mWindow.clear();
-     mWindow.draw(mPlayer);
-     mWindow.display();
+    mWindow.clear();
+    mWorld.draw();
+    mWindow.display();
 }
 
 void Game::handlePlayerInput(sf::Keyboard::Scancode key, bool isPressed) {
-    if (key == sf::Keyboard::Scancode::W)
-        mIsMovingUp = isPressed;
-    if (key == sf::Keyboard::Scancode::A)
-        mIsMovingLeft = isPressed;
-    if (key == sf::Keyboard::Scancode::S)
-        mIsMovingDown = isPressed;
-    if (key == sf::Keyboard::Scancode::D)
-        mIsMovingRight = isPressed;
+    // default
 }

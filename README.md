@@ -9,6 +9,8 @@
 - Chạy các lệnh sau trong thư mục của dự án  
 (quá trình này có thể mất hơn 2 phút)
 ```powershell
-cmake -B build
+cmake -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build --config Release
+cmake --install build
 ```
+- Sau đó vào `/build/install` và mở `main.exe`

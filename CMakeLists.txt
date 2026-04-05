@@ -7,13 +7,19 @@ set(CACHE{BUILD_SHARED_LIBS} TYPE BOOL HELP "Build using shared libraries" FORCE
 
 include(FetchContent)
 FetchContent_Declare(
-    SFML
-    GIT_REPOSITORY https://github.com/SFML/SFML.git
-    GIT_TAG 3.0.2
-    GIT_SHALLOW ON
-    EXCLUDE_FROM_ALL
-    SYSTEM
+	SFML
+	GIT_REPOSITORY https://github.com/SFML/SFML.git
+	GIT_TAG 3.0.2
+	GIT_SHALLOW ON
+	EXCLUDE_FROM_ALL
+	SYSTEM
 )
 FetchContent_MakeAvailable(SFML)
 
 add_subdirectory(src)
+
+set(CACHE{CMAKE_INSTALL_PREFIX} TYPE STRING FORCE VALUE ${CMAKE_BINARY_DIR}/install)
+
+install(TARGETS Main  
+		RUNTIME DESTINATION .)
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/assets" DESTINATION .)
