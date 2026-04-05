@@ -1,4 +1,4 @@
-name: Continuous Integration
+name: CI
 
 on: [push, pull_request]
 
@@ -40,7 +40,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Configure
-        run: cmake -B build ${{matrix.flagCompiler}}
+        run: cmake -B build ${{matrix.flagCompiler}} -DCMAKE_BUILD_TYPE=Release
 
       - name: Build
         run: cmake --build build --config Release

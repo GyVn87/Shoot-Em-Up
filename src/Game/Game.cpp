@@ -1,4 +1,4 @@
-#include "game.hpp"
+#include "Game.hpp"
 
 Game::Game() : mWindow(sf::VideoMode({640, 480}), "Shoot 'Em Up"), mWorld(mWindow) {} // update later
 
