@@ -1,0 +1,3 @@
+add_subdirectory(Category)
+add_subdirectory(Command)
+add_subdirectory(CommandQueue)
