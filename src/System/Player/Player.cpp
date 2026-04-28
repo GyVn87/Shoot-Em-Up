@@ -50,7 +50,7 @@ void Player::initializeKeyBinding() {
 }
 
 void Player::initializeActionBinding() {
-    const float playerSpeed = 5.f;
+    const float playerSpeed = 30.f;
     
     mActionBinding[MoveUp].action = derivedAction<Aircraft>(AircraftMover({0.f, -playerSpeed}));    
     mActionBinding[MoveDown].action = derivedAction<Aircraft>(AircraftMover({0.f, playerSpeed}));    

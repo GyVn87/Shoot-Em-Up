@@ -10,6 +10,7 @@ class ResourceHolder {
     public:
         template <typename... Types>
         void load(Identifier id, const std::string &fileName, Types&&... args);
+        void unload(Identifier id);
         Resource& get(Identifier id);
         const Resource& get(Identifier id) const;
     private:

@@ -1,0 +1,5 @@
+add_subdirectory(TitleState)
+add_subdirectory(MenuState)
+add_subdirectory(GameState)
+add_subdirectory(PauseState)
+add_subdirectory(LoadingState)

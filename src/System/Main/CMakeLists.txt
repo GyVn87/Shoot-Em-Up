@@ -6,8 +6,8 @@ endif()
 
 target_sources(Main PRIVATE Main.cpp)
 
-target_link_libraries(Main PRIVATE Game)
-
 if (TARGET SFML::Main)
     target_link_libraries(Main PRIVATE SFML::Main)
 endif()
+
+target_link_libraries(Main PRIVATE Application)

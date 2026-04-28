@@ -1,7 +1,6 @@
 #ifndef WORLD_H
 #define WORLD_H
 
-#include "TextureHolder.hpp"
 #include "SceneNode.hpp"
 #include "CommandQueue.hpp"
 
@@ -14,18 +13,25 @@
 
 class Aircraft;
 
+namespace Textures {
+    enum ID : short;
+}
+
+template <typename Resource, typename Identifier>
+class ResourceHolder;
+using TextureHolder = ResourceHolder<sf::Texture, Textures::ID>;
+
 namespace sf { class RenderWindow; }
 
 class World {
     public:
-        explicit World(sf::RenderWindow& window);
+        World(sf::RenderWindow& window, TextureHolder& textures);
         World(const World&) = delete;
         World operator=(const World&) = delete;
         CommandQueue& getCommandQueue();
-        void draw();
+        void draw() const ;
         void update(sf::Time dt);
     private:
-        void loadTextures();
         void buildScene();
         void keepInBounds();
     private:
@@ -37,7 +43,7 @@ class World {
     private:
         sf::RenderWindow& mWindow;
         sf::View mWorldView;
-        TextureHolder mTextures;
+        TextureHolder& mTextures;
         SceneNode mSceneGraph;
         std::array<SceneNode*, LAYERCOUNT> mSceneLayers;
         CommandQueue mCommandQueue;

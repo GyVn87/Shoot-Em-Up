@@ -18,20 +18,18 @@
 #include <memory>
 #include <utility>
 
-World::World(sf::RenderWindow& window) : 
-    mWindow(window),
-    mWorldView(window.getDefaultView()),
-    mTextures(), 
-    mSceneGraph(), 
-    mSceneLayers(),
-    mCommandQueue(),
-    mWorldBoundsHeight(2000.f),
-    mWorldBounds({0.f, -mWorldBoundsHeight}, {mWorldView.getSize().x, mWorldBoundsHeight}), 
-    mSpawnPosition({mWorldView.getSize().x / 2.f, -mWorldView.getSize().y / 2.f}), 
-    mScrollSPeed(-50.f), 
-    mPlayerAircraft(nullptr) 
-{ 
-    loadTextures();
+World::World(sf::RenderWindow& window, TextureHolder& textures) : 
+        mWindow(window),
+        mWorldView(window.getDefaultView()),
+        mTextures(textures), 
+        mSceneGraph(), 
+        mSceneLayers(),
+        mCommandQueue(),
+        mWorldBoundsHeight(2000.f),
+        mWorldBounds({0.f, -mWorldBoundsHeight}, {mWorldView.getSize().x, mWorldBoundsHeight}), 
+        mSpawnPosition({mWorldView.getSize().x / 2.f, -mWorldView.getSize().y / 2.f}), 
+        mScrollSPeed(-50.f), 
+        mPlayerAircraft(nullptr) { 
     buildScene();    
     mWorldView.setCenter(mSpawnPosition);
 }
@@ -40,7 +38,7 @@ CommandQueue& World::getCommandQueue() {
     return mCommandQueue;
 }
 
-void World::draw() {
+void World::draw() const {
     mWindow.setView(mWorldView);
     mWindow.draw(mSceneGraph);
 }
@@ -55,12 +53,6 @@ void World::update(sf::Time dt) {
 
     mSceneGraph.update(dt);
     keepInBounds();
-}
-
-void World::loadTextures() {
-    mTextures.load(Textures::ID::Aircraft_Eagle, "assets/images/Aircraft/Eagle.png");
-    mTextures.load(Textures::ID::Background_Desert, "assets/images/Background/Desert.png");
-    mTextures.load(Textures::ID::Aircraft_Owl, "assets/images/Aircraft/Owl.png");
 }
 
 void World::buildScene() {
@@ -87,7 +79,7 @@ void World::buildScene() {
     leftEscort->setPosition({-45.f, 25.f});
     mPlayerAircraft->attachChild(std::move(leftEscort));
 
-    std::unique_ptr<Aircraft> rightEscort = std::make_unique<Aircraft>(Aircraft::Type::Owl, mTextures);
+    std::unique_ptr<Aircraft> rightEscort = std::make_unique<Aircraft>(Aircraft::Type::Phoenix, mTextures);
     rightEscort->setPosition({45.f, 25.f});
     mPlayerAircraft->attachChild(std::move(rightEscort));
 }

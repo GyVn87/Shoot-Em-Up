@@ -1,4 +1,7 @@
-add_subdirectory(Game)
 add_subdirectory(Main)
 add_subdirectory(Player)
 add_subdirectory(World)
+add_subdirectory(State)
+add_subdirectory(StateStack)
+add_subdirectory(Application)
+add_subdirectory(States)
